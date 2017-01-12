@@ -29,7 +29,7 @@ or
 ```sh
 $ node --harmony index.js
 ```
-Open [http://localhost:3000](http://localhost:3000) for a test of submitting by form
+Open [http://localhost:3000](http://localhost:3000) for a test of submitting by `<form>`
 
 Open [http://localhost:3000/jquery](http://localhost:3000/jquery)  for a test of submitting by `$.post()`
 
