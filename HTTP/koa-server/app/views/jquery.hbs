@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>document</title>
+</head>
+<body style="background:grey;">
+<div>
+    <form action="/" method="post">
+        <input type="text" name="username">
+        <input type="password" name="password">
+        <input type="submit">
+    </form>
+</div>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+$('form').on('submit', function (e) {
+    e.preventDefault();
+    var $form = $(this);
+    var data = $form.serialize();
+//    console.log(data);
+//    console.log($form.serializeArray());
+    $.post('/', data, function(response){
+//        var obj = JSON.parse(response);
+        console.log(response.result);
+    }, 'json')
+
+})
+</script>
+</body>
+</html>

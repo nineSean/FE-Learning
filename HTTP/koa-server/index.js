@@ -25,5 +25,5 @@ app.use(require('koa-static')('./static'));  // 开启静态文件的访问
 
 require('./app/routes')(app);
 
-app.listen(8080)
-console.log('http://127.0.0.1:8080')
+app.listen(3000)
+console.log('http://127.0.0.1:3000')

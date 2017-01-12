@@ -29,13 +29,11 @@ or
 ```sh
 $ node --harmony index.js
 ```
-Open [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000) for a test of submitting by form
 
-**Run the test:**
+Open [http://localhost:3000/jquery](http://localhost:3000/jquery)  for a test of submitting by `$.post()`
 
-```sh
-$ npm test
-```
+
 
 Components
 ==========
