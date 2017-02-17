@@ -75,6 +75,7 @@
         ajax({
             url: '/loading',
             type: 'get',
+            dataType: 'json',
             data: {
                 start: cur,
                 length: 6
@@ -82,7 +83,7 @@
             success: function (json) {
                 if(json.status ===1){
                     append(json.data);
-                    cur += length;
+                    cur += 6;
                 }else{
                     alert('数据获取失败');
                 }
@@ -98,7 +99,9 @@
 
         function append(arr) {
             for(var i = 0; i<arr.length; i++){
-                ct.append('<li>' + arr[i] + '</li>')
+                var li = document.createElement('li');
+                li.innerHTML = '<a href="#">内容' + arr[i] + '</a>';
+                ct.append(li);
             }
         }
     })
