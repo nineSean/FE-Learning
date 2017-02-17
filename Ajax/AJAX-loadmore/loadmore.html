@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>loadmore</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            font: 16px/1.5 'microsoft yahei';
+        }
+        a{
+            text-decoration: none;
+            color: #000;
+        }
+        ul{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        #ct>li>a{
+            display: block;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        #btn{
+            margin: 0 auto;
+            width: 80px;
+            height: 40px;
+            border: 1px solid #E27272;
+            border-radius: 3px;
+            color: #E27272;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+        }
+        #ct>li>a:hover{
+            color: #fff;
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+<ul id="ct">
+    <li><a href="#">内容1</a></li>
+    <li><a href="#">内容2</a></li>
+</ul>
+<div id="btn">加载更多</div>
+<script>
+    var ct = $('#ct'),
+        btn = $('#btn'),
+        locked = false,
+        cur = 2;
+
+//    ct.addEventListener('mouseenter', function (e) {
+//        if(e.target.nodeName.toLowerCase() = 'li'){
+//            e.target.setAttribute('class', e.target.getAttribute() + ' changed');
+//        }
+//    })
+//    ct.addEventListener('mouseleave', function (e) {
+//        if(e.target.nodeName.toLowerCase() = 'li'){
+//            e.target.setAttribute('class', e.target.getAttribute() + ' changed');
+//        }
+//    })
+
+    btn.addEventListener('click', function () {
+
+        if(locked){
+            return;
+        }
+        locked = true;
+        this.innerText = '加载中...';
+
+        ajax({
+            url: '/loading',
+            type: 'get',
+            data: {
+                start: cur,
+                length: 6
+            },
+            success: function (json) {
+                if(json.status ===1){
+                    append(json.data);
+                    cur += length;
+                }else{
+                    alert('数据获取失败');
+                }
+                btn.innerText = '加载更多';
+                locked = false;
+            },
+            error: function () {
+                btn.innerText = '加载更多';
+                locked =false;
+                alert('error');
+            }
+        })
+
+        function append(arr) {
+            for(var i = 0; i<arr.length; i++){
+                ct.append('<li>' + arr[i] + '</li>')
+            }
+        }
+    })
+
+    function $(str) {
+      return  document.querySelector(str);
+    }
+
+    function ajax(opts){
+        var dataStr = '';
+        for(var key in opts.data){
+            dataStr += key + '=' + opts.data[key] + '&';
+        }
+        dataStr = dataStr.substring(0,dataStr.length-1);
+
+        var xhr = new XMLHttpRequest();
+        if(opts.type.toLowerCase() === 'get'){
+            xhr.open('get', opts.url + '?' + dataStr, true);
+            xhr.send();
+        }
+        if(opts.type.toLowerCase() === 'post'){
+            xhr.open('post', opts.url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(dataStr);
+        }
+
+
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    if( opts.dataType.toLowerCase() === 'text'){
+                        opts.success(xhr.responseText);
+                    }
+                    if( opts.dataType.toLowerCase() === 'json'){
+                        var json = JSON.parse(xhr.responseText)
+                        opts.success(json);
+                    }
+                }else{
+                    opts.error();
+                }
+            }else{
+
+            }
+        }
+    }
+
+</script>
+</body>
+</html>

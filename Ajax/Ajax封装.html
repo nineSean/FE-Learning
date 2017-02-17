@@ -9,7 +9,35 @@
 </head>
 <body>
 <script>
-    function ajax (opts){
+    var locked = false;
+
+    document.querySelector('#btn').addEventListener('click', function () {
+
+        if(locked){
+            return;
+        }
+
+        locked = true;
+
+        ajax({
+            url: '/login',
+            type: 'post',
+            data: {
+                username: 'xiaoming',
+                password: 'abcd1234'
+            },
+            success: function (ret) {
+                console.log(ret);
+                locked = false;
+            },
+            error: function () {
+                console.log ('出错了');
+                locked = false;
+            }
+        })
+    })
+
+    function ajax(opts){
         opts.type = opts.type || 'get';
         opts.data = opts.data || {};
         opts.dataType = opts.dataType || 'json';
@@ -41,7 +69,8 @@
                         opts.success(xhr.responseText);
                     }
                     if( opts.dataType.toLowerCase() === 'json'){
-                        opts.success(JSON.parse(xhr.responseText));
+                        var json = JSON.parse(xhr.responseText)
+                        opts.success(json);
                     }
                 }else{
                     opts.error();
@@ -50,32 +79,6 @@
         }
     }
 
-    var locked = false;
-
-    document.querySelector('#btn').addEventListener('click', function () {
-
-        if(locked){
-            return;
-        }
-
-        locked = true;
-
-        ajax({
-            url: '/login',
-            type: 'post',
-            data: {
-                username: 'xiaoming',
-                password: 'abcd1234'
-            },
-            success: function (ret) {
-                console.log(ret);
-                locked = false;
-            },
-            error: function () {
-                console.log ('出错了');
-            }
-        })
-    })
 </script>
 </body>
 </html>
