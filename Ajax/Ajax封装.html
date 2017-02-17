@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AJAX封装</title>
+</head>
+<body>
+<script>
+    function ajax (opts){
+        opts.type = opts.type || 'get';
+        opts.data = opts.data || {};
+        opts.dataType = opts.dataType || 'json';
+        opts.success = opts.success || function () {};
+        opts.error = opts.error || function () {};
+
+        var dataStr = '';
+        for(var key in opts.data){
+            dataStr += key + '=' + opts.data[key] + '&';
+        }
+        dataStr = dataStr.substring(0,dataStr.length-1);
+
+        var xhr = new XMLHttpRequest();
+        if(opts.type.toUpperCase() === 'GET'){
+            xhr.open('GET', opts.url + '?' + dataStr, true);
+            xhr.send();
+        }
+        if(opts.type.toUpperCase() === 'POST'){
+            xhr.open('POST', opts.url, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(dataStr);
+        }
+
+
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState === 4){
+                if(xhr.status === 200){
+                    if( opts.dataType.toLowerCase() === 'text'){
+                        opts.success(xhr.responseText);
+                    }
+                    if( opts.dataType.toLowerCase() === 'json'){
+                        opts.success(JSON.parse(xhr.responseText));
+                    }
+                }else{
+                    opts.error();
+                }
+            }
+        }
+    }
+
+    var locked = false;
+
+    document.querySelector('#btn').addEventListener('click', function () {
+
+        if(locked){
+            return;
+        }
+
+        locked = true;
+
+        ajax({
+            url: '/login',
+            type: 'post',
+            data: {
+                username: 'xiaoming',
+                password: 'abcd1234'
+            },
+            success: function (ret) {
+                console.log(ret);
+                locked = false;
+            },
+            error: function () {
+                console.log ('出错了');
+            }
+        })
+    })
+</script>
+</body>
+</html>
