@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>lazyload组件封装</title>
+  <style>
+
+    .container::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    ul.container {
+      max-width: 800px;
+      margin: 50px auto;
+    }
+
+    .container > li {
+      list-style: none;
+      float: left;
+      margin: 10px;
+    }
+
+    img {
+      width: 380px;
+      height: 380px;
+    }
+  </style>
+</head>
+<body>
+<ul class="container" data-role="lazyload">
+</ul>
+<script
+  src="http://code.jquery.com/jquery-3.2.0.js"
+  integrity="sha256-wPFJNIFlVY49B+CuAIrDr932XSb6Jk3J1M22M3E2ylQ="
+  crossorigin="anonymous"></script>
+<script>
+  //创建插入节点，用于懒加载
+  var range_16 = Array.from(Array(16).keys()),
+    imgPlaceHolder = 'http://onjs2gyy6.bkt.clouddn.com/image/jpg/blank.jpg',
+    imgListDom = range_16.map(function (value, index) {
+      return ['<li><a>',
+        '<img data-src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/' + (value + 1) + '.jpg"',
+        ' src="' + imgPlaceHolder + '">',
+        '</a></li>'].join('')
+    }),
+    $containerDom = $('.container')
+  $containerDom.html(imgListDom.join(''))
+  //主逻辑
+  function LazyLoad($targetDom, callback) {
+    this.$node = $targetDom
+    this.callback = callback
+    this.check()
+    this.addScrollEvent()
+  }
+  //可视检查
+  LazyLoad.prototype.check = function () {
+    let windowHeight = $(window).height(),
+      scrollTop = $(window).scrollTop(),
+      offsetTop = this.$node.offset().top,
+      nodeHeight = this.$node.height()
+    if (offsetTop < windowHeight + scrollTop && nodeHeight + offsetTop > scrollTop) this.callback(this.$node)
+  }
+  //添加滚动监听
+  LazyLoad.prototype.addScrollEvent = function () {
+    $(window).on('scroll', () => {
+      this.check()
+    })
+  }
+  //显示图片的回调函数
+  function showImg($img){
+    let imgUrl = $img.attr('data-src')
+    $img.attr('src', imgUrl)
+  }
+  //初始化
+  let init = function ($targetDom, callback){
+    $targetDom.each(function (index, target){
+      new LazyLoad($(target), callback)
+    })
+  }
+  init($('[data-role=lazyload] img'), function($node){
+    showImg($node)
+  })
+
+</script>
+</body>
+</html>
