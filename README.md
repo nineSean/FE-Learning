@@ -1,1 +1,1 @@
-* Record of learning front end.
+* my record of learning front end.
