@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
@@ -16,6 +16,11 @@
       list-style: none;
     }
 
+    .clearfix::after{
+      content: '';
+      display: block;
+      clear: both;
+    }
     .container {
       height: 100vh;
       display: flex;
@@ -92,157 +97,317 @@
       color: rgba(0, 0, 0, .6);
       background-color: rgba(255, 255, 255, .8);
     }
-
   </style>
 </head>
+
 <body>
 <div class="container">
+  <!--<div data-role="carousel">-->
+    <!--<div class="imgs-wrapper">-->
+      <!--<a href="#">-->
+        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/3.jpg" alt="">-->
+      <!--</a>-->
+      <!--<a href="#">-->
+        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/5.jpg" alt="">-->
+      <!--</a>-->
+      <!--<a href="#">-->
+        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/9.jpg" alt="">-->
+      <!--</a>-->
+      <!--<a href="#">-->
+        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/15.jpg" alt="">-->
+      <!--</a>-->
+      <!--<a href="#">-->
+        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/16.jpg" alt="">-->
+      <!--</a>-->
+    <!--</div>-->
+    <!--<div class="arrow pre"></div>-->
+    <!--<div class="arrow next"></div>-->
+    <!--<ol class="buttons">-->
+      <!--<li class="button1 active">1</li>-->
+      <!--<li class="button2">2</li>-->
+      <!--<li class="button3">3</li>-->
+      <!--<li class="button4">4</li>-->
+      <!--<li class="button5">5</li>-->
+    <!--</ol>-->
+  <!--</div>-->
   <div data-role="carousel">
-    <div class="imgs-wrapper">
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/3.jpg" alt="">
-      </a>
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/5.jpg" alt="">
-      </a>
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/9.jpg" alt="">
-      </a>
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/15.jpg" alt="">
-      </a>
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/16.jpg" alt="">
-      </a>
-    </div>
-    <div class="arrow pre"></div>
-    <div class="arrow next"></div>
-    <ol class="buttons">
-      <li class="button1 active">1</li>
-      <li class="button2">2</li>
-      <li class="button3">3</li>
-      <li class="button4">4</li>
-      <li class="button5">5</li>
-    </ol>
-  </div>
-  <div data-role="carousel">
-    <div class="imgs-wrapper">
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/3.jpg" alt="">
-      </a>
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/5.jpg" alt="">
-      </a>
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/9.jpg" alt="">
-      </a>
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/15.jpg" alt="">
-      </a>
-      <a href="#">
-        <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/16.jpg" alt="">
-      </a>
-    </div>
-    <div class="arrow pre"></div>
-    <div class="arrow next"></div>
-    <ol class="buttons">
-      <li class="button1 active">1</li>
-      <li class="button2">2</li>
-      <li class="button3">3</li>
-      <li class="button4">4</li>
-      <li class="button5">5</li>
-    </ol>
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/3.jpg" alt="">
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/5.jpg" alt="">
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/9.jpg" alt="">
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/15.jpg" alt="">
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/16.jpg" alt="">
   </div>
 </div>
-<script
-  src="http://code.jquery.com/jquery-3.2.0.js"
-  integrity="sha256-wPFJNIFlVY49B+CuAIrDr932XSb6Jk3J1M22M3E2ylQ="
-  crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-3.2.0.js" integrity="sha256-wPFJNIFlVY49B+CuAIrDr932XSb6Jk3J1M22M3E2ylQ=" crossorigin="anonymous"></script>
 <script>
   class Carousel {
-    constructor(options) {
-      this.wrapper = options.wrapper
+    constructor($dom, options) {
+      this.$dom = $dom
+      this.options = options
+      this.init()
     }
-
-  }
-  let $carousel = $('[data-role=carousel]').eq(0)
-  let $viewport = $carousel.children('.imgs-wrapper')
-  let $imgs = $viewport.children()
-  let $imgsLength = $imgs.length
-  let $viewportWidth = $imgs.find('img').width()
-  let $firstImg = $imgs.first()
-  let $lastImg = $imgs.last()
-  let current = 1
-
-  $firstImg.clone().appendTo($viewport)
-  $lastImg.clone().prependTo($viewport)
-  $viewport.css({
-    width: parseInt($viewportWidth, 10) * ($imgsLength + 2),
-    left: -$viewportWidth
-  })
-  let isPlay = false
-  function play(index) {
-    if(isPlay) return
-    isPlay = true
-    stopAuto()
-    $viewport.stop(true, true).animate({
-      left: -$viewportWidth * index
-    }, 500, function () {
-      if (index === 0) {
-        $viewport.css({
-          left: -$viewportWidth * $imgsLength
-        })
-        index = $imgsLength
-      } else if (index === $imgsLength + 1) {
-        $viewport.css({
-          left: -$viewportWidth
-        })
-        index = 1
+    init(){
+      this.isPlay = false
+      this.hover = false
+      this.timer = null
+      this.current = 1
+      this.prepareHtml()
+      this.bindEvents()
+      if(this.options.auto){
+        this.autoPlay()
       }
-      current = index % ($imgsLength + 1)
-      setButton(index)
-      isPlay = false
-      if(!hover) autoPlay()
-    })
+    }
+    prepareHtml(){
+      this.$dom.wrapInner('<div class=viewport></div>')
+      let $viewport = this.$viewport = this.$dom.children().css({
+        position: 'relative',
+        width: this.options.width,
+        height: this.options.height
+      })
+      $viewport.children().wrapAll('<ul class=img-list></ul>')
+      let $imgList = this.$imgList = $viewport.children().addClass('clearfix')
+      $imgList.children().wrap('<a href=#></a>')
+      let $initialImgs = this.$initialImgs = $imgList.children()
+      let count = this.count = $initialImgs.length
+      $initialImgs.eq(0).clone().appendTo($imgList)
+      $initialImgs.eq($initialImgs.length-1).clone().prependTo($imgList)
+//      debugger
+      $imgList.css({
+        width: this.options.width*(count+2),
+        position: 'absolute',
+        left: -this.options.width
+      }).find('a').wrap('<li></li>').find('img').css({
+        height: this.options.height,
+        width: this.options.width
+      })
+      let $currentImgs = this.$currentImgs = $imgList.children()
+      $currentImgs.css({
+        'list-style': 'none',
+        float: 'left'
+      })
+      this.addController()
+    }
+    addController(){
+      let $preKey = this.$preKey = $('<div class="arrow pre"></div>').appendTo(this.$viewport).css({
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        border: `${this.options.height/12}px solid transparent`,
+        'border-right-color': 'rgba(0, 0, 0, .6)'
+      })
+      let $nextKey = this.$nextKey = $('<div class="arrow next"></div>').appendTo(this.$viewport).css({
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        right: 0,
+        border: `${this.options.height/12}px solid transparent`,
+        'border-left-color': 'rgba(0, 0, 0, .6)'
+      })
+      let range_$numberKey = Array.from(Array(this.count).keys())
+      let $numberKey = this.$numberKey = $(range_$numberKey.map(function( value, index){
+        return `<li>${index+1}</li>`
+      }).join('')).appendTo(this.$viewport).wrapAll('<ol class=key-list></ol>').css({
+        'list-style': 'none',
+        float: 'left',
+        height: this.options.height/10,
+        width: this.options.height/10,
+        'line-height': `${this.options.height/10}px`,
+        'text-align': 'center',
+        color: 'rgba(255, 255, 255, .8)',
+        'background-color': 'rgba(0, 0, 0, .6)',
+        'border-radius': '50%',
+        margin: '0 10px'
+      })
+      $($numberKey[0]).css({
+        'background-color': 'rgba(255, 255, 255, .8)',
+        color: 'rgba(0, 0, 0, .6)'
+      })
+      let $keyList= this.$keyList= $numberKey.parent().css({
+        position: 'absolute',
+        bottom: `${this.options.height/15}px`,
+        left: '50%',
+        transform: 'translateX(-49%)'
+      })
+    }
+    bindEvents(){
+      let carousel = this
+      this.$nextKey.on('mouseenter', function(){
+        let $this = $(this)
+        $this.css({
+          'border-left-color': 'rgba(255, 255, 255, .8)'
+        })
+      }).on('mouseleave', function(){
+        let $this = $(this)
+        $this.css({
+          'border-left-color': 'rgba(0, 0, 0, .6)'
+        })
+      }).on('click', carousel.next.bind(carousel))
+      this.$preKey.on('mouseenter', function(){
+        let $this = $(this)
+        $this.css({
+          'border-right-color': 'rgba(255, 255, 255, .8)'
+        })
+      }).on('mouseleave', function(){
+        let $this = $(this)
+        $this.css({
+          'border-right-color': 'rgba(0, 0, 0, .6)'
+        })
+      }).on('click', carousel.pre.bind(carousel))
+      this.$keyList.on('click', 'li', function () {
+        let index = carousel.$numberKey.index(this)
+        carousel.play(index+1)
+      })
+      this.$imgList.on('mouseenter', function () {
+        carousel.stopAuto()
+        carousel.hover = true
+      }).on('mouseleave', function () {
+        carousel.autoPlay()
+        carousel.hover = false
+      })
+    }
+    pre(){
+
+      this.play(this.current-1)
+    }
+    next(){
+      this.play(this.current+1)
+    }
+    autoPlay(){
+      let carousel = this
+      carousel.timer = setInterval(function(){
+        carousel.next()
+      },2000)
+    }
+    stopAuto(){
+      clearInterval(this.timer)
+    }
+    play(index){
+      let carousel = this
+      if(this.isPlay) return
+      this.isPlay = true
+      this.stopAuto()
+      this.$imgList.stop(true, true).animate({
+        left: -this.options.width* index
+      }, 500, function () {
+        if (index === 0) {
+          carousel.$imgList.css({
+            left: -carousel.options.width*carousel.count
+          })
+          index =carousel.count
+        } else if (index ===carousel.count+ 1) {
+          carousel.$imgList.css({
+            left: -carousel.options.width
+          })
+          index = 1
+        }
+        carousel.current = index % (carousel.count+ 1)
+        carousel.setNumberKey(index)
+        carousel.isPlay = false
+        if (!carousel.hover)carousel.autoPlay()
+      })
+    }
+    setNumberKey(index){
+      this.$numberKey.eq(index-1).css({
+        color: 'rgba(0, 0, 0, .6)',
+        'background-color': 'rgba(255, 255, 255, .8)'
+      }).siblings().css({
+        color: 'rgba(255, 255, 255, .8)',
+        'background-color': 'rgba(0, 0, 0, .6)'
+      })
+    }
   }
-  let timer
-  function autoPlay(){
-    timer = setInterval(function(){
-      next()
-    },2000)
-  }
-  autoPlay()
-  function stopAuto(){
-    clearInterval(timer)
-  }
-  function pre() {
-    play(current-1)
-  }
-  $carousel.find('.pre').on('click', function () {
-    pre()
-  })
-  function next() {
-    play(current+1)
-  }
-  $carousel.find('.next').on('click', function () {
-    next()
-  })
-  $carousel.find('.buttons').on('click', 'li', function () {
-    let $li = this
-    let index = $carousel.find('.buttons').children().index($li)
-    play(index+1)
-  })
-  let hover = false
-  $viewport.on('mouseenter', function () {
-    stopAuto()
-    hover = true
-  }).on('mouseleave', function () {
-    autoPlay()
-    hover = false
-  })
-  function setButton(index){
-    $carousel.find('.buttons').children().eq(index-1).addClass('active').siblings().removeClass('active')
-  }
+
+//  new Carousel($($('[data-role=carousel]')[1]), {width: 500,height: 300, auto: true})
+   $.fn.carousel = function (options) {
+     $elements = $(this)
+     $elements.each(function(){
+       let $element = $(this)
+       let carousel = new Carousel($element, options)
+     })
+   }
+
+   $('[data-role=carousel]').carousel({width: 500,height: 300,auto: true})
+
+
+  //let $carousel = $('[data-role=carousel]').eq(0)
+//  let $viewport = $carousel.children('.imgs-wrapper')
+//  let $initialImgs = $viewport.children()
+//  let $initialImgsLength = $initialImgs.length
+//  let $viewportWidth = $initialImgs.find('img').width()
+//  let $firstImg = $initialImgs.first()
+//  let $lastImg = $initialImgs.last()
+//  let current = 1
+//
+//  $firstImg.clone().appendTo($viewport)
+//  $lastImg.clone().prependTo($viewport)
+//  $viewport.css({
+//    width: parseInt($viewportWidth, 10) * ($initialImgsLength + 2),
+//    left: -$viewportWidth
+//  })
+//  let isPlay = false
+//  function play(index) {
+//    if(isPlay) return
+//    isPlay = true
+//    stopAuto()
+//    $viewport.stop(true, true).animate({
+//      left: -$viewportWidth * index
+//    }, 500, function () {
+//      if (index === 0) {
+//        $viewport.css({
+//          left: -$viewportWidth * $initialImgsLength
+//        })
+//        index = $initialImgsLength
+//      } else if (index === $initialImgsLength + 1) {
+//        $viewport.css({
+//          left: -$viewportWidth
+//        })
+//        index = 1
+//      }
+//      current = index % ($initialImgsLength + 1)
+//      setButton(index)
+//      isPlay = false
+//      if(!hover) autoPlay()
+//    })
+//  }
+//  let timer
+//  function autoPlay(){
+//    timer = setInterval(function(){
+//      next()
+//    },2000)
+//  }
+////  autoPlay()
+//  function stopAuto(){
+//    clearInterval(timer)
+//  }
+//  function pre() {
+//    play(current-1)
+//  }
+//  $carousel.find('.pre').on('click', function () {
+//    pre()
+//  })
+//  function next() {
+//    play(current+1)
+//  }
+//  $carousel.find('.next').on('click', function () {
+//    next()
+//  })
+//  $carousel.find('.buttons').on('click', 'li', function () {
+//    let $li = this
+//    let index = $carousel.find('.buttons').children().index($li)
+//    play(index+1)
+//  })
+//  let hover = false
+//  $viewport.on('mouseenter', function () {
+//    stopAuto()
+//    hover = true
+//  }).on('mouseleave', function () {
+//    autoPlay()
+//    hover = false
+//  })
+//  function setButton(index){
+//    $carousel.find('.buttons').children().eq(index-1).addClass('active').siblings().removeClass('active')
+//  }
 </script>
 </body>
+
 </html>
