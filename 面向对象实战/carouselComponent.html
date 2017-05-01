@@ -11,11 +11,6 @@
       margin: 0;
       padding: 0;
     }
-
-    li {
-      list-style: none;
-    }
-
     .clearfix::after{
       content: '';
       display: block;
@@ -28,108 +23,14 @@
       align-items: center;
       justify-content: center;
     }
-
-    [data-role=carousel] {
-      position: relative;
-      margin: 10px;
-      height: 300px;
-      width: 500px;
-      overflow: hidden;
-    }
-
-    .imgs-wrapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 2500px;
-    }
-
-    [data-role=carousel] > .imgs-wrapper img {
-      height: 300px;
-      width: 500px;
-      float: left;
-    }
-
-    [data-role=carousel] > .arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      border: 25px solid transparent;
-    }
-
-    [data-role=carousel] > .pre {
-      border-right-color: rgba(0, 0, 0, .6);
-    }
-
-    [data-role=carousel] > .next {
-      right: 0;
-      border-left-color: rgba(0, 0, 0, .6);
-    }
-
-    [data-role=carousel] > .pre:hover {
-      border-right-color: rgba(255, 255, 255, .8);
-    }
-
-    [data-role=carousel] > .next:hover {
-      border-left-color: rgba(255, 255, 255, .8);
-    }
-
-    [data-role=carousel] > .buttons {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    [data-role=carousel] > .buttons > li {
-      float: left;
-      height: 30px;
-      width: 30px;
-      line-height: 30px;
-      text-align: center;
-      color: rgba(255, 255, 255, .8);
-      background-color: rgba(0, 0, 0, .6);
-      border-radius: 50%;
-      margin: 0 10px;
-    }
-
-    [data-role=carousel] > .buttons > li.active {
-      color: rgba(0, 0, 0, .6);
-      background-color: rgba(255, 255, 255, .8);
+    [data-role=carousel]{
+      margin: 10px 0;
     }
   </style>
 </head>
 
 <body>
 <div class="container">
-  <!--<div data-role="carousel">-->
-    <!--<div class="imgs-wrapper">-->
-      <!--<a href="#">-->
-        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/3.jpg" alt="">-->
-      <!--</a>-->
-      <!--<a href="#">-->
-        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/5.jpg" alt="">-->
-      <!--</a>-->
-      <!--<a href="#">-->
-        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/9.jpg" alt="">-->
-      <!--</a>-->
-      <!--<a href="#">-->
-        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/15.jpg" alt="">-->
-      <!--</a>-->
-      <!--<a href="#">-->
-        <!--<img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/16.jpg" alt="">-->
-      <!--</a>-->
-    <!--</div>-->
-    <!--<div class="arrow pre"></div>-->
-    <!--<div class="arrow next"></div>-->
-    <!--<ol class="buttons">-->
-      <!--<li class="button1 active">1</li>-->
-      <!--<li class="button2">2</li>-->
-      <!--<li class="button3">3</li>-->
-      <!--<li class="button4">4</li>-->
-      <!--<li class="button5">5</li>-->
-    <!--</ol>-->
-  <!--</div>-->
   <div data-role="carousel">
     <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/3.jpg" alt="">
     <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/5.jpg" alt="">
@@ -137,6 +38,14 @@
     <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/15.jpg" alt="">
     <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/16.jpg" alt="">
   </div>
+  <div data-role="carousel">
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/3.jpg" alt="">
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/5.jpg" alt="">
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/9.jpg" alt="">
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/15.jpg" alt="">
+    <img src="http://onjs2gyy6.bkt.clouddn.com/image/jpg/16.jpg" alt="">
+  </div>
+
 </div>
 <script src="http://code.jquery.com/jquery-3.2.0.js" integrity="sha256-wPFJNIFlVY49B+CuAIrDr932XSb6Jk3J1M22M3E2ylQ=" crossorigin="anonymous"></script>
 <script>
@@ -161,6 +70,7 @@
       this.$dom.wrapInner('<div class=viewport></div>')
       let $viewport = this.$viewport = this.$dom.children().css({
         position: 'relative',
+        overflow: 'hidden',
         width: this.options.width,
         height: this.options.height
       })
@@ -171,7 +81,6 @@
       let count = this.count = $initialImgs.length
       $initialImgs.eq(0).clone().appendTo($imgList)
       $initialImgs.eq($initialImgs.length-1).clone().prependTo($imgList)
-//      debugger
       $imgList.css({
         width: this.options.width*(count+2),
         position: 'absolute',
@@ -317,7 +226,6 @@
     }
   }
 
-//  new Carousel($($('[data-role=carousel]')[1]), {width: 500,height: 300, auto: true})
    $.fn.carousel = function (options) {
      $elements = $(this)
      $elements.each(function(){
@@ -328,85 +236,6 @@
 
    $('[data-role=carousel]').carousel({width: 500,height: 300,auto: true})
 
-
-  //let $carousel = $('[data-role=carousel]').eq(0)
-//  let $viewport = $carousel.children('.imgs-wrapper')
-//  let $initialImgs = $viewport.children()
-//  let $initialImgsLength = $initialImgs.length
-//  let $viewportWidth = $initialImgs.find('img').width()
-//  let $firstImg = $initialImgs.first()
-//  let $lastImg = $initialImgs.last()
-//  let current = 1
-//
-//  $firstImg.clone().appendTo($viewport)
-//  $lastImg.clone().prependTo($viewport)
-//  $viewport.css({
-//    width: parseInt($viewportWidth, 10) * ($initialImgsLength + 2),
-//    left: -$viewportWidth
-//  })
-//  let isPlay = false
-//  function play(index) {
-//    if(isPlay) return
-//    isPlay = true
-//    stopAuto()
-//    $viewport.stop(true, true).animate({
-//      left: -$viewportWidth * index
-//    }, 500, function () {
-//      if (index === 0) {
-//        $viewport.css({
-//          left: -$viewportWidth * $initialImgsLength
-//        })
-//        index = $initialImgsLength
-//      } else if (index === $initialImgsLength + 1) {
-//        $viewport.css({
-//          left: -$viewportWidth
-//        })
-//        index = 1
-//      }
-//      current = index % ($initialImgsLength + 1)
-//      setButton(index)
-//      isPlay = false
-//      if(!hover) autoPlay()
-//    })
-//  }
-//  let timer
-//  function autoPlay(){
-//    timer = setInterval(function(){
-//      next()
-//    },2000)
-//  }
-////  autoPlay()
-//  function stopAuto(){
-//    clearInterval(timer)
-//  }
-//  function pre() {
-//    play(current-1)
-//  }
-//  $carousel.find('.pre').on('click', function () {
-//    pre()
-//  })
-//  function next() {
-//    play(current+1)
-//  }
-//  $carousel.find('.next').on('click', function () {
-//    next()
-//  })
-//  $carousel.find('.buttons').on('click', 'li', function () {
-//    let $li = this
-//    let index = $carousel.find('.buttons').children().index($li)
-//    play(index+1)
-//  })
-//  let hover = false
-//  $viewport.on('mouseenter', function () {
-//    stopAuto()
-//    hover = true
-//  }).on('mouseleave', function () {
-//    autoPlay()
-//    hover = false
-//  })
-//  function setButton(index){
-//    $carousel.find('.buttons').children().eq(index-1).addClass('active').siblings().removeClass('active')
-//  }
 </script>
 </body>
 
